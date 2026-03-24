@@ -1,0 +1,276 @@
+Program 1: Counter App
+
+import { useState } from "react";
+export default function App(){
+const [count,setCount]=useState(0)
+return(
+<div style={{textAlign: “center”}}>
+<h1>Counter App</h1>
+<h2>{count}</h2>
+<button onClick={()=>setCount(count+1)}>Increment</button>
+<button onClick={()=>{if(count>0)setCount(count-1)}}>Decrement</button>
+<button onClick={()=>setCount(0)}>Reset</button>
+</div>
+)
+}
+
+Program 2: To-Do List
+
+import { useState } from "react";
+export default function App(){
+
+const [task,setTask]=useState("")
+const [list,setList]=useState([])
+const add=()=>{
+if(task==="") return
+setList([...list,{text:task,done:false}])
+setTask("")}
+
+return(
+<div>
+<h1>Todo List</h1>
+<input value={task} onChange={(e)=>setTask(e.target.value)}/>
+<button onClick={add}>Add</button>
+<ul>
+{list.map((item,i)=>(
+<li key={i}>
+<input type="checkbox" onChange={()=>{
+const newList=[...list]
+newList[i].done=!newList[i].done
+setList(newList)}}/>
+<span style={{
+textDecoration:item.done?"line-through":"none"}}>
+{item.text}
+</span>
+<button onClick={()=>{
+setList(list.filter((_,index)=>index!==i))}}>
+Delete
+</button>
+</li>
+))}
+</ul>
+</div>
+)
+}
+
+Program 3: Registration Form
+
+import {useState} from "react"
+export default function App(){
+
+const [name,setName]=useState("")
+const [email,setEmail]=useState("")
+const [pass,setPass]=useState("")
+const [data,setData]=useState(null)
+return(
+<div style={{textAlign:"center"}}>
+<h1>Registration Form</h1>
+<form onSubmit={(e)=>{
+e.preventDefault()
+setData({name,email,pass})}}>
+<input placeholder="Name" onChange={(e)=>setName(e.target.value)}/><br></br>
+<input placeholder="Email" onChange={(e)=>setEmail(e.target.value)}/><br></br>
+<input type="password" placeholder="Password" onChange={(e)=>setPass(e.target.value)}/><br></br>
+<button>Submit</button>
+</form>
+
+{data && (
+<div>
+<p>Name: {data.name}</p>
+<p>Email: {data.email}</p>
+<p>Password: {data.pass}</p>
+</div>
+)}
+</div>
+)}
+
+Program 4: Color Picker
+
+
+import {useState} from "react"
+export default function App(){
+    
+const [color,setColor]=useState("white")
+return(
+<div style={{textAlign: “center”}}>
+<h1>Color Picker</h1>
+<button onClick={()=>setColor("red")}>Red</button>
+<button onClick={()=>setColor("blue")}>Blue</button>
+<button onClick={()=>setColor("green")}>Green</button>
+<div style={{
+width:"200px",
+height:"120px",
+backgroundColor :color,
+marginTop:"20px",
+border:"1px solid"
+}}></div>
+</div>
+)
+}
+
+
+Program 5: Greeting
+
+import { useState, useEffect } from "react";
+export default function App(){
+
+const [text,setText]=useState("")
+useEffect(()=>{
+const updateTime=()=>{
+let now=new Date()
+let h=now.getHours()
+let m=now.getMinutes()
+let s=now.getSeconds()
+m = m.toString().padStart(2,"0")
+s = s.toString().padStart(2,"0")
+let msg=""
+if(h<12) msg="Good Morning"
+else if(h<17) msg="Good Afternoon"
+else if(h<20) msg="Good Evening"
+else msg="Good Night"
+setText(`${msg} ${h}:${m}:${s}`)
+}
+updateTime()
+const interval = setInterval(updateTime,1000)
+return ()=>clearInterval(interval)
+},[])
+return(
+<div>
+<h1>{text}</h1>
+</div>
+)
+}
+
+Program 6: Real-time calculator
+
+import {useState} from "react"
+export default function App(){
+
+const [a,setA]=useState(0)
+const [b,setB]=useState(0)
+return(
+<div>
+<h1>Real-Time Calculator</h1>
+<input 
+type="number"
+placeholder="Enter first number"
+onChange={(e)=>setA(Number(e.target.value))}/>
+<input 
+type="number"
+placeholder="Enter second number"
+onChange={(e)=>setB(Number(e.target.value))}/>
+<p>Addition: {a+b}</p>
+<p>Subtraction: {a-b}</p>
+<p>Multiplication: {a*b}</p>
+<p>Division: {b===0?"Cannot divide by zero":a/b}</p>
+</div>
+)
+}
+
+
+Program 7: Fetch API
+
+
+ import {useState,useEffect} from "react"
+export default function App(){
+
+const [users,setUsers]=useState([])
+useEffect(()=>{
+fetch("https://jsonplaceholder.typicode.com/users")
+.then(res=>res.json())
+.then(data=>setUsers(data))
+},[])
+return(
+<div>
+<h1>User List</h1>
+{users.map(u=>(
+<p key={u.id}>
+Name: {u.name} | Email: {u.email}
+</p>
+))}
+</div>
+)
+}
+
+
+Program 8:  Tab(home/contact/about) 
+(open the terminal and run the command: npm install react-router-dom
+After installing, check it inside the package.json and then start typing the code)
+
+
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+export default function App() {
+  
+  return (
+    <BrowserRouter>
+      <div>
+        <h1>Tabs Example</h1>
+        <div>
+          <Link to="/home"> <button>Home</button> </Link>
+          <Link to="/about"> <button>About</button> </Link>
+          <Link to="/contact"> <button>Contact</button> </Link>
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          <Routes>
+            <Route path="/home" element={<p>Welcome to Home Page</p>}
+            />
+            <Route path="/about" element={<p>This is About Page</p>}
+            />
+            <Route path="/contact" element={<p>Contact us at example@gmail.com</p>}
+            />
+          </Routes>
+        </div>
+      </div>
+    </BrowserRouter>
+  );
+}
+
+Program 9: Dark/Light mode
+
+import {useState} from "react"
+export default function App(){
+
+const [dark,setDark]=useState(false)
+return(
+<div>
+<h1>Theme Toggle</h1>
+<p>{dark?"Dark Mode Enabled":"Light Mode Enabled"}</p>
+<button onClick={()=>setDark(!dark)}>
+Toggle Theme
+</button>
+</div>
+)
+}
+
+Program 10: Mini blog
+
+import { useState } from "react";
+export default function App(){
+
+const posts=[
+{title:"React is an javascript variable",content:"React is an javascript varibale which can be used for UI"},
+{title:"Components are said to be rusable parts",content:"components are said to be reusable parts that helps us to build our UI"}
+]
+const [page,setPage]=useState(-1)
+
+return(
+<div style={{textAlign:"center",marginTop:"100px"}}>
+<h2>Mini Blog</h2>
+{page===-1 ?
+posts.map((p,i)=>(
+<div key={i}>
+<p>{p.title}</p>
+<button onClick={()=>setPage(i)}>Read</button>
+</div>
+)):
+<div>
+<h3>{posts[page].title}</h3>
+<p>{posts[page].content}</p>
+<button onClick={()=>setPage(-1)}>Back</button>
+</div>
+}
+</div>
+)
+}
+
+
